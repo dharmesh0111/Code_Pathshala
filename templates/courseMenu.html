@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'extra_css' %}
+<style>
+    /* Custom CSS for Product Card */
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 400px;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.product-card img {
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+            max-width: 300px; /* Adjust as needed */
+            height: 250px; /* Adjust as needed */
+            overflow: hidden; /* Hide any overflowed content */
+            border: 1px solid #ddd; 
+            margin-left: 50px;
+}
+
+.product-card .card-body {
+    padding: 1.25rem;
+}
+
+.product-card .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.product-card .card-text {
+    color: #555;
+}
+
+.product-card .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.product-card .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+body{
+    background: linear-gradient(to right,#8b2929,#665584);
+    background-blend-mode: multiply;   
+}
+.k a{
+    margin-left: 35px;
+}
+
+
+
+</style>
+
+{% endblock 'extra_css' %}
+
+
+{% block 'main' %}
+<div class="container">
+
+
+    
+
+       <form class="d-flex my-4" role="search" action="{% url 'search_courses' %}" method="get">
+        <input class="form-control me-2" type="search" name="query" placeholder="Search for course titles" aria-label="Search" value="{{ request.GET.query }}">
+        <button class="btn btn-outline-warning" type="submit">Search</button>
+    </form>
+
+    <div class="dropdown">
+        <button class="btn btn-warning dropdown-toggle mt-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Sort by Price
+        </button>
+        <ul class="k dropdown-menu">
+                <li><a href="/sort/asc" class="d-block py-1">Low to High</a></li>
+        <li><a href="/sort/desc" class="d-block py-1">High to Low</a></li>
+        </ul>
+    </div>
+    
+      
+    <div class="container  " style=>
+       <div class="row">
+        {% if courses %}
+            {% for d in courses %}
+            <div class="col-md-4 mt-5">
+                <div class="card product-card">
+                    <img src="{{ d.thumnail.url }}" class="card-img-top" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ d.title }}</h5>
+                        <p class="card-text"><strong><h4>{{ d.fees }}₹</h4></strong></p>
+                        <a href="/courses/{{ d.title }}" class="btn btn-primary"> more details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+    {% else %}
+        {% endif %}
+    </div>
+      
+  </div> 
+   
+
+<div class="container mb-5 " style="height: 100%;">
+    <div class="row">
+        <!-- Product Card -->
+         {% for d in data %}
+        <div class="col-md-4 mt-4">
+            <div class="card product-card">
+                <img src="{{ d.thumnail.url }}" class="card-img-top" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ d.title }}</h5>
+                    <p class="card-text"><strong><h4>{{ d.fees }}₹</h4></strong></p>
+                    <a href="/courses/{{ d.title }}" class="btn btn-primary"> more details
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- Repeat similar blocks for more products -->
+    </div>
+</div>
+</div>
+
+{% endblock 'main' %}
